@@ -3,7 +3,7 @@ import Graph from "react-graph-vis";
 import React, { useState } from "react";
 
 const DEFAULT_PARAMS = {
-  "model": "text-davinci-003",
+  "model": "gpt-3.5-turbo-0125",
   "temperature": 0.3,
   "max_tokens": 800,
   "top_p": 1,
@@ -123,7 +123,7 @@ function App() {
       .then(prompt => {
         console.log(prompt)
 
-        const params = { ...DEFAULT_PARAMS, prompt: prompt, stop: "\n" };
+        const params = { ...DEFAULT_PARAMS, messages: [{"role": "user", "content": prompt}]};
 
         const requestOptions = {
           method: 'POST',
@@ -133,7 +133,7 @@ function App() {
           },
           body: JSON.stringify(params)
         };
-        fetch('https://api.openai.com/v1/completions', requestOptions)
+        fetch('https://api.openai.com/v1/chat/completions', requestOptions)
           .then(response => {
             if (!response.ok) {
               switch (response.status) {
@@ -145,24 +145,29 @@ function App() {
                   throw new Error('Something went wrong with the request, please check the Network log');
               }
             }
-            return response.json();
+            return response.json()
           })
           .then((response) => {
             const { choices } = response;
-            const text = choices[0].text;
+            const text = choices[0].message.content;
             console.log(text);
 
             const updates = JSON.parse(text);
-            console.log(updates);
 
+            if (updates.length==0){
+              throw new Error('No relationships detected!');
+            }
+            console.log(updates);
             updateGraph(updates);
 
-            document.getElementsByClassName("searchBar")[0].value = "";
-            document.body.style.cursor = 'default';
-            document.getElementsByClassName("generateButton")[0].disabled = false;
           }).catch((error) => {
             console.log(error);
             alert(error);
+          })
+          .then(() => {
+            document.getElementsByClassName("searchBar")[0].value = "";
+            document.body.style.cursor = 'default';
+            document.getElementsByClassName("generateButton")[0].disabled = false;
           });
       })
   };
@@ -175,7 +180,7 @@ function App() {
       .then(prompt => {
         console.log(prompt)
 
-        const params = { ...DEFAULT_PARAMS, prompt: prompt };
+        const params = { ...DEFAULT_PARAMS, messages: [{"role": "user", "content": prompt}], prompt: prompt };
 
         const requestOptions = {
           method: 'POST',
@@ -185,7 +190,7 @@ function App() {
           },
           body: JSON.stringify(params)
         };
-        fetch('https://api.openai.com/v1/completions', requestOptions)
+        fetch('https://api.openai.com/v1/chat/completions', requestOptions)
           .then(response => {
             if (!response.ok) {
               switch (response.status) {
@@ -201,19 +206,20 @@ function App() {
           })
           .then((response) => {
             const { choices } = response;
-            const text = choices[0].text;
+            const text = choices[0].message.content;
             console.log(text);
 
             const new_graph = JSON.parse(text);
-
             setGraphState(new_graph);
 
-            document.getElementsByClassName("searchBar")[0].value = "";
-            document.body.style.cursor = 'default';
-            document.getElementsByClassName("generateButton")[0].disabled = false;
           }).catch((error) => {
             console.log(error);
             alert(error);
+          })
+          .then(() => {
+            document.getElementsByClassName("searchBar")[0].value = "";
+            document.body.style.cursor = 'default';
+            document.getElementsByClassName("generateButton")[0].disabled = false;
           });
       })
   };

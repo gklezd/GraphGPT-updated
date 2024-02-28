@@ -6,6 +6,8 @@ If an update is related to a color, provide [ENTITY, COLOR]. Color is in hex for
 
 If an update is related to deleting an entity, provide ["DELETE", ENTITY].
 
+If no updates are detected then return an empty list.
+
 Example:
 prompt: Alice is Bob's roommate. Make her node green.
 updates:

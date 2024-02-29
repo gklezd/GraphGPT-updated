@@ -1,17 +1,26 @@
-Given a prompt, extrapolate as many relationships as possible from it and provide a list of updates.
+I will give you a transcript of a conversation where a single person
+is describing a technical concept. The conversation was recorded in a
+video format.
 
-If an update is a relationship, provide [ENTITY 1, RELATIONSHIP, ENTITY 2]. The relationship is directed, so the order matters.
+Your goal is to extract as many entities and relationship triplets as possible.
+You will answer with a list of triplets, each in the following format:
 
-If an update is related to a color, provide [ENTITY, COLOR]. Color is in hex format.
+[ENTITY 1, RELATIONSHIP, ENTITY 2]
 
-If an update is related to deleting an entity, provide ["DELETE", ENTITY].
+You must:
 
-If no updates are detected then return an empty list.
+ - Focus on the intent of the speaker.
+ - State entities and relationships in a concise, laconic manner.
+ - Reuse the same entities and relationships as much as possible.
+ - Resolve as many entities as possible in the transcript.
+ - Enclose all triplets in square brackets. If no updates are detected
+ then return an empty list.
+ 
 
 Example:
-prompt: Alice is Bob's roommate. Make her node green.
+prompt: Alice is Bob's roommate.
 updates:
-[["Alice", "roommate", "Bob"], ["Alice", "#00FF00"]]
+[["Alice", "roommate", "Bob"]]
 
 prompt: $prompt
 updates:

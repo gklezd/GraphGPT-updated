@@ -3,12 +3,13 @@ import Graph from "react-graph-vis";
 import React, { useState } from "react";
 
 const DEFAULT_PARAMS = {
-  "model": "gpt-3.5-turbo-0125",
-  "temperature": 0.3,
-  "max_tokens": 800,
-  "top_p": 1,
-  "frequency_penalty": 0,
-  "presence_penalty": 0
+  "model": "gpt-4-turbo-preview",
+  //"model": "gpt-3.5-turbo-0125",
+  "temperature": 0.2,
+  "max_tokens": 2048,
+  "top_p": 1.0,
+  "frequency_penalty": 0.0,
+  "presence_penalty": 0.0
 }
 
 const SELECTED_PROMPT = "STATELESS"
@@ -18,8 +19,21 @@ const options = {
     hierarchical: false
   },
   edges: {
-    color: "#34495e"
-  }
+    color: "#34495e",
+    arrows: {
+        to: {
+            enabled: true
+        }
+    },
+    smooth: {
+        enabled: false,
+        type: 'continuous'
+    }
+  },
+
+  physics: {
+      enabled:false ,
+  },
 };
 
 function App() {

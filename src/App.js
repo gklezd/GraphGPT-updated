@@ -28,11 +28,11 @@ const options = {
     smooth: {
         enabled: false,
         type: 'continuous'
-    }
+    },
+    length: 300,
   },
-
   physics: {
-      enabled:false ,
+      enabled: true ,
   },
 };
 

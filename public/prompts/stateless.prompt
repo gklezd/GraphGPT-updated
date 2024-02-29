@@ -7,15 +7,18 @@ You will answer with a list of triplets, each in the following format:
 
 [ENTITY 1, RELATIONSHIP, ENTITY 2]
 
+Entities must be noun and relationships verbs.
+
 You must:
 
  - Focus on the intent of the speaker.
  - State entities and relationships in a concise, laconic manner.
  - Reuse the same entities and relationships as much as possible.
- - Resolve as many entities as possible in the transcript.
+ - Resolve as many entities and relationships as possible in the transcript.
  - Enclose all triplets in square brackets. If no updates are detected
  then return an empty list.
- 
+ - If the speaker is refering to or acting to and entity that you cannot understand,
+name it Unknown Entity (UE), give it a unique serial number and include it in your answer.
 
 Example:
 prompt: Alice is Bob's roommate.
